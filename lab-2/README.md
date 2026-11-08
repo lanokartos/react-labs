@@ -22,19 +22,17 @@ https://denysmatsevych.github.io/web-development-2026/react/labs/lab-2/
 
 Заповніть за вкладкою **Components ⚛** у React DevTools (§4.6).
 
-```
+```text
 App
 ├── Header
 ├── Card «Тімлід»
-│
-└── Avatar
+│   └── Avatar
 └── Card «Команда»
-    │
-    └── Profile (id=1)
+    ├── Profile (id=1)
     │   └── Avatar
-    └── Profile (id=2)
+    ├── Profile (id=2)
     │   └── Avatar
-    └── Profile (id=3)
+    ├── Profile (id=3)
     │   └── Avatar
     └── Profile (id=4)
         └── Avatar
@@ -44,13 +42,14 @@ App
 
 Дерево залежностей модулів
 
+```text
 main.jsx
 ├── index.css
 └── App.jsx
-├── Header.jsx
-├── Avatar.jsx
-├── Profile.jsx
-│
-└── Avatar.jsx
-├── Card.jsx
-└── data.js
+    ├── Header.jsx
+    ├── Avatar.jsx
+    ├── Profile.jsx
+    │   └── Avatar.jsx
+    ├── Card.jsx
+    └── data.js
+```
