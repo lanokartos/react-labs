@@ -6,8 +6,8 @@ export default function App() {
   return (
     <main className="app">
       <h1>Меню кав'ярні</h1>
-      <SearchBar searchText="Пошук у меню" checkboxLabel="Лише в наявності" />
-      <MenuTable text1="Позиція" text2="Ціна" menu={menu} />
+      <SearchBar />
+      <MenuTable menu={menu} />
     </main>
   )
 }
