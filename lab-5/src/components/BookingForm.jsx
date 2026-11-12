@@ -5,6 +5,7 @@ import { describeBooking } from '../describeBooking.js'
 export default function BookingForm() {
   const [booking, setBooking] = useState(null)
   const [comment, setComment] = useState('')
+  const [guests, setGuests] = useState(2)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -18,11 +19,18 @@ export default function BookingForm() {
     }
   }
 
+  function handleReset() {
+    setBooking(null)
+    setComment('')
+    setGuests(2)
+  }
+
   return (
     <form
       className="booking-form"
       onSubmit={handleSubmit}
       onKeyDown={handleKeyDown}
+      onReset={handleReset}
     >
       <label>
         Ім'я
@@ -38,7 +46,7 @@ export default function BookingForm() {
           <input type="time" name="time" required />
         </label>
       </div>
-      <GuestsStepper defaultValue={2} />
+      <GuestsStepper value={guests} onChange={setGuests} />
       <label>
         Коментар
         <textarea
