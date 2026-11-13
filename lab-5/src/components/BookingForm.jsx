@@ -1,11 +1,12 @@
 import GuestsStepper from './GuestsStepper.jsx'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { describeBooking } from '../describeBooking.js'
 
 export default function BookingForm() {
   const [booking, setBooking] = useState(null)
   const [comment, setComment] = useState('')
   const [guests, setGuests] = useState(2)
+  const nameRef = useRef(null)
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -23,6 +24,7 @@ export default function BookingForm() {
     setBooking(null)
     setComment('')
     setGuests(2)
+    nameRef.current.focus()
   }
 
   return (
@@ -32,7 +34,7 @@ export default function BookingForm() {
       onKeyDown={handleKeyDown}
       onReset={handleReset}
     >
-      <label>
+      <label ref={nameRef}>
         Ім'я
         <input name="name" autoComplete="name" required />
       </label>
