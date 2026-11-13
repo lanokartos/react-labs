@@ -1,6 +1,5 @@
 import { Controller, useForm, useWatch } from 'react-hook-form'
 import GuestsStepper from './GuestsStepper.jsx'
-import { describeBooking } from '../describeBooking.js'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { bookingSchema } from '../bookingSchema.js'
 import { startTransition, useActionState } from 'react'
@@ -16,17 +15,6 @@ const defaultValues = {
 }
 
 export default function BookingForm() {
-  const [result, dispatch, isPending] = useActionState(bookTable, null)
-
-  // Дія для useActionState: null — сигнал «Очистити»; інакше надсилаємо
-  // бронювання, після успіху очищаємо форму й повертаємо відповідь.
-  async function bookTable(previousResult, booking) {
-    if (booking === null) return null
-    const response = await sendBooking(booking)
-    if (response.ok) startTransition(() => reset())
-    return response
-  }
-
   const {
     register,
     control,
@@ -44,9 +32,20 @@ export default function BookingForm() {
 
   const comment = useWatch({ control, name: 'comment' })
 
+  // Дія для useActionState: null — сигнал «Очистити»; інакше надсилаємо
+  // бронювання, після успіху очищаємо форму й повертаємо відповідь.
+  async function bookTable(previousResult, booking) {
+    if (booking === null) return null
+    const response = await sendBooking(booking)
+    if (response.ok) startTransition(() => reset())
+    return response
+  }
+
+  const [result, dispatch, isPending] = useActionState(bookTable, null)
+
   function onValid(data) {
     if (isPending) return
-    dispatch(data)
+    startTransition(() => dispatch(data))
   }
 
   function handleKeyDown(e) {
