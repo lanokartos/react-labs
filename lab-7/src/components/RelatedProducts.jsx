@@ -1,16 +1,19 @@
-import { useState } from 'react'
 import FavoriteButton from './FavoriteButton.jsx'
+import { useShowMore } from '../hooks/useShowMore.js'
 
 export default function RelatedProducts({ products }) {
-  const [count, setCount] = useState(4)
-  const visibleProducts = products.slice(0, count)
-  const hiddenCount = products.length - visibleProducts.length
+  const { visibleItems, hiddenCount, showMore, collapse } = useShowMore(
+    products,
+    4,
+  )
+
+  const isExpanded = hiddenCount === 0
 
   return (
     <section className="related" aria-labelledby="related-title">
       <h2 id="related-title">Схожі товари</h2>
       <ul className="related-list" aria-labelledby="related-title">
-        {visibleProducts.map((item) => (
+        {visibleItems.map((item) => (
           <li key={item.id} className="related-card">
             <h3>{item.name}</h3>
             <p>{item.notes}</p>
@@ -18,16 +21,20 @@ export default function RelatedProducts({ products }) {
             <FavoriteButton productId={item.id} name={item.name} />
           </li>
         ))}
+        {products.length > 4 && (
+          <li className="related-more">
+            <button
+              type="button"
+              className="show-more"
+              onClick={isExpanded ? collapse : showMore}
+            >
+              {isExpanded
+                ? 'Згорнути'
+                : `Показати ще ${Math.min(4, hiddenCount)}`}
+            </button>
+          </li>
+        )}
       </ul>
-      {hiddenCount > 0 && (
-        <button
-          type="button"
-          className="show-more"
-          onClick={() => setCount(count + 4)}
-        >
-          Показати ще {Math.min(4, hiddenCount)}
-        </button>
-      )}
     </section>
   )
 }
