@@ -11,13 +11,13 @@
 `AddToCartButton`, `CartLine`, сторінка кошика й шапка з лічильником.
 «Тек» — скільки їх, «Теки» — їхні шляхи через кому.
 
-| Структура                  | Тек | Теки                                                                                |
-| -------------------------- | --- | ----------------------------------------------------------------------------------- |
-| За типом файлів (§4.3)     | 4   | src/components, src/hooks, src/pages, src/store                                     |
-| За маршрутами (§4.4)       | 5   | src/app, src/routes/cart, src/shared/components, src/shared/hooks, src/shared/store |
-| За функціональністю (§4.5) |     |                                                                                     |
-| FSD (§4.6)                 |     |                                                                                     |
-| Пакет (§4.9)               |     |                                                                                     |
+| Структура                  | Тек | Теки                                                                                                          |
+| -------------------------- | --- | ------------------------------------------------------------------------------------------------------------- |
+| За типом файлів (§4.3)     | 4   | src/components, src/hooks, src/pages, src/store                                                               |
+| За маршрутами (§4.4)       | 5   | src/app, src/routes/cart, src/shared/components, src/shared/hooks, src/shared/store                           |
+| За функціональністю (§4.5) | 5   | src/app, src/app/routes/cart, src/features/cart/components, src/features/cart/hooks, src/features/cart/stores |
+| FSD (§4.6)                 |     |                                                                                                               |
+| Пакет (§4.9)               |     |                                                                                                               |
 
 ## Вибір структури
 
