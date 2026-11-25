@@ -6,6 +6,8 @@
  * Порожня чернетка заморожена (Object.freeze), як і її масив items:
  * ред'юсер не може її змінити, лише повернути нову чернетку.
  */
+import { defaultMilk } from '../data/menu.js'
+
 export const emptyDraft = Object.freeze({
   customerName: '',
   items: Object.freeze([]),
@@ -38,6 +40,67 @@ export const emptyDraft = Object.freeze({
  * Поки що кидає помилку. Вимоги — у тестах tests/draftReducer.test.js і
  * tests/OrderComposer.test.jsx.
  */
-export function draftReducer(/* state, action */) {
-  throw new Error('Not implemented: draftReducer')
+export function draftReducer(state, action) {
+  switch (action.type) {
+    case 'customer_changed': {
+      return { ...state, customerName: action.name }
+    }
+
+    case 'drink_added': {
+      const newItem = {
+        id: action.id,
+        drink: action.drink,
+        size: 'M',
+        milk: defaultMilk(action.drink),
+        syrups: [],
+      }
+      return { ...state, items: [...state.items, newItem] }
+    }
+
+    case 'draft_cleared': {
+      return emptyDraft
+    }
+
+    case 'size_chosen': {
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.id === action.itemId ? { ...item, size: action.size } : item
+        ),
+      }
+    }
+
+    case 'milk_chosen': {
+      return {
+        ...state,
+        items: state.items.map((item) =>
+          item.id === action.itemId ? { ...item, milk: action.milk } : item
+        ),
+      }
+    }
+
+    case 'syrup_toggled': {
+      return {
+        ...state,
+        items: state.items.map((item) => {
+          if (item.id !== action.itemId) return item
+          const hasSyrup = item.syrups.includes(action.syrup)
+          const syrups = hasSyrup
+            ? item.syrups.filter((s) => s !== action.syrup)
+            : [...item.syrups, action.syrup]
+          return { ...item, syrups }
+        }),
+      }
+    }
+
+    case 'item_removed': {
+      return {
+        ...state,
+        items: state.items.filter((item) => item.id !== action.itemId),
+      }
+    }
+
+    default:
+      throw new Error(`Unknown action: ${action.type}`)
+  }
 }
