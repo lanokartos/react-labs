@@ -65,7 +65,7 @@ export function draftReducer(state, action) {
       return {
         ...state,
         items: state.items.map((item) =>
-          item.id === action.itemId ? { ...item, size: action.size } : item
+          item.id === action.itemId ? { ...item, size: action.size } : item,
         ),
       }
     }
@@ -74,7 +74,7 @@ export function draftReducer(state, action) {
       return {
         ...state,
         items: state.items.map((item) =>
-          item.id === action.itemId ? { ...item, milk: action.milk } : item
+          item.id === action.itemId ? { ...item, milk: action.milk } : item,
         ),
       }
     }
