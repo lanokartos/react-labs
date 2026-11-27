@@ -1,4 +1,6 @@
+import { useQueue } from '../model/queueContext.js'
 import { selectColumn } from '../model/queueReducer.js'
+import OrderCard from './OrderCard.jsx'
 import OrderColumn from './OrderColumn.jsx'
 
 const columns = [
@@ -8,18 +10,22 @@ const columns = [
   { status: 'served', title: 'Видані' },
 ]
 
-export default function OrderBoard({ queue, dispatch, onOpen }) {
+export default function OrderBoard({ onOpen }) {
+  const { queue } = useQueue()
   return (
     <div className="board">
-      {columns.map(({ status, title }) => (
-        <OrderColumn
-          key={status}
-          title={title}
-          orders={selectColumn(queue, status)}
-          dispatch={dispatch}
-          onOpen={onOpen}
-        />
-      ))}
+      {columns.map(({ status, title }) => {
+        const orders = selectColumn(queue, status)
+        return (
+          <OrderColumn key={status} title={title} count={orders.length}>
+            {orders.map((order) => (
+              <li key={order.id}>
+                <OrderCard order={order} onOpen={onOpen} />
+              </li>
+            ))}
+          </OrderColumn>
+        )
+      })}
     </div>
   )
 }

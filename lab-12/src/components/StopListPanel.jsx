@@ -1,4 +1,5 @@
 import { stopListOptions } from '../data/menu.js'
+import { useStopList } from '../model/stopListContext.js'
 
 /**
  * Панель «Стоп-лист»: відмітка для кожного напою, молока й сиропу. Відмічене
@@ -8,7 +9,9 @@ import { stopListOptions } from '../data/menu.js'
  *   stopped   назви зі стоп-листа, масив рядків: ['Какао', 'вівсяне'];
  *   onToggle  onToggle(name), коли відмітку поставили чи зняли.
  */
-export default function StopListPanel({ stopped, onToggle }) {
+export default function StopListPanel() {
+  const { stopped, toggle } = useStopList()
+
   return (
     <fieldset className="stop-list">
       <legend>Стоп-лист</legend>
@@ -20,7 +23,7 @@ export default function StopListPanel({ stopped, onToggle }) {
               <input
                 type="checkbox"
                 checked={stopped.includes(name)}
-                onChange={() => onToggle(name)}
+                onChange={() => toggle(name)}
               />
               {name}
             </label>

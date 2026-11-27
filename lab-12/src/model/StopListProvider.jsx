@@ -5,6 +5,21 @@
  *
  * Поки що кидає помилку. Вимоги — у тестах tests/StopList.test.jsx.
  */
-export default function StopListProvider(/* { children } */) {
-  throw new Error('Not implemented: StopListProvider')
+import { useState } from 'react'
+import { StopListContext } from './stopListContext.js'
+
+export default function StopListProvider({ children }) {
+  const [stopped, setStopped] = useState([])
+
+  function toggle(name) {
+    setStopped((prev) =>
+      prev.includes(name)
+        ? prev.filter((item) => item !== name)
+        : [...prev, name],
+    )
+  }
+
+  return (
+    <StopListContext value={{ stopped, toggle }}>{children}</StopListContext>
+  )
 }

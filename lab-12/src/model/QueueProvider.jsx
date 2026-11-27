@@ -5,6 +5,28 @@
  *
  * Поки що кидає помилку. Вимоги — у тестах tests/QueueProvider.test.jsx.
  */
-export default function QueueProvider(/* { children } */) {
-  throw new Error('Not implemented: QueueProvider')
+import { useReducer } from 'react'
+import { loadOrders } from '../data/orders.js'
+import { QueueContext, QueueDispatchContext } from './queueContext.js'
+import { createInitialState, queueReducer } from './queueReducer.js'
+import { createHistory, withUndo } from './withUndo.js'
+
+const undoableQueue = withUndo(queueReducer)
+
+export default function QueueProvider({ children }) {
+  const [history, dispatch] = useReducer(undoableQueue, null, () =>
+    createHistory(createInitialState(loadOrders())),
+  )
+
+  return (
+    <QueueContext
+      value={{
+        queue: history.present,
+        canUndo: history.past.length > 0,
+        canRedo: history.future.length > 0,
+      }}
+    >
+      <QueueDispatchContext value={dispatch}>{children}</QueueDispatchContext>
+    </QueueContext>
+  )
 }
